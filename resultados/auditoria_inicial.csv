@@ -1,0 +1,12 @@
+﻿indicador,valor
+total_registros,10300
+total_columnas,16
+edades_numericas_registradas,9071
+edades_faltantes_o_no_numericas,1229
+edades_negativas,19
+edades_superiores_a_100,11
+edades_validas_entre_0_y_100,9041
+edades_numericas_fuera_de_rango,30
+filas_duplicadas_exactas,300
+repeticiones_adicionales_user_id,300
+registros_con_user_id_repetido,595

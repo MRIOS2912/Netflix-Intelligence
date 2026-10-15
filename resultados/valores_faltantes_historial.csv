@@ -1,0 +1,13 @@
+﻿columna_original,nombre_descriptivo,valores_faltantes,porcentaje_faltantes
+session_id,Identificador de la sesion,0,0.0
+user_id,Identificador del usuario,0,0.0
+movie_id,Identificador del contenido,0,0.0
+watch_date,Fecha de visualizacion,0,0.0
+device_type,Tipo de dispositivo,0,0.0
+watch_duration_minutes,Duracion de visualizacion (minutos),11771,11.77
+progress_percentage,Porcentaje de reproduccion,8094,8.09
+action,Accion de visualizacion,0,0.0
+quality,Calidad de reproduccion,0,0.0
+location_country,Pais de ubicacion,0,0.0
+is_download,Contenido descargado,0,0.0
+user_rating,Calificacion del usuario,79886,79.89

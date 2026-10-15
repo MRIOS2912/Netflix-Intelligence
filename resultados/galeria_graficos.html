@@ -1,0 +1,397 @@
+﻿
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galería de gráficas | Netflix Intelligence</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 24px;
+    background: #f4f6f9;
+    color: #222;
+}
+
+h1 { margin-bottom: 8px; }
+p { color: #555; }
+
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.tarjeta {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 2px 8px #00000014;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.tarjeta:hover { border-color: #e50914; }
+
+.tarjeta img {
+    display: block;
+    width: 100%;
+    height: 210px;
+    object-fit: contain;
+    background: white;
+}
+
+.nombre {
+    font-size: 15px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    margin-top: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #000000f2;
+    padding: 8px;
+}
+
+.modal.activo {
+    display: flex;
+    flex-direction: column;
+}
+
+.cabecera {
+    flex: 0 0 auto;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 60px;
+}
+
+#tituloModal {
+    color: white;
+    text-align: center;
+    font-size: 21px;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.marcoImagen {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    display: block;
+    border: 1px solid #333;
+    background: #100b11;
+    scrollbar-width: auto;
+    scrollbar-color: #888 #222;
+}
+
+#imagenGrande {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    margin: 0 auto;
+}
+
+.controles {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 4px;
+}
+
+button {
+    padding: 10px 14px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 6px;
+    background: white;
+    color: #111;
+    font-size: 14px;
+}
+
+button:hover { background: #f2dadd; }
+
+.cerrar {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 1002;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    font-size: 27px;
+}
+
+.boton-zoom {
+    width: 42px;
+    height: 38px;
+    padding: 0;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+#indicadorZoom {
+    color: white;
+    min-width: 48px;
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    body { padding: 14px; }
+    .galeria { grid-template-columns: 1fr; }
+    .cabecera { padding: 8px 48px; }
+    #tituloModal { font-size: 17px; }
+    button { padding: 9px 10px; font-size: 12px; }
+    .boton-zoom { width: 36px; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Netflix Intelligence</h1>
+<p>Galería de resultados gráficos. Haz clic en una imagen para ampliarla.</p>
+
+<div class="galeria" id="galeria"></div>
+
+<div class="modal" id="modal" role="dialog"
+     aria-modal="true" aria-labelledby="tituloModal">
+
+    <button class="cerrar" id="botonCerrar" aria-label="Cerrar">×</button>
+
+    <div class="cabecera">
+        <h2 id="tituloModal"></h2>
+    </div>
+
+    <div class="marcoImagen" id="marcoImagen">
+        <img id="imagenGrande" src="" alt="">
+    </div>
+
+    <div class="controles">
+        <button id="anterior">← Anterior</button>
+        <button id="volver">Volver a la galería</button>
+        <button id="siguiente">Siguiente →</button>
+        <button class="boton-zoom" id="reducir" title="Reducir zoom"
+                aria-label="Reducir zoom">−</button>
+        <button id="ajustar">Ajustar a pantalla</button>
+        <button class="boton-zoom" id="ampliar" title="Ampliar zoom"
+                aria-label="Ampliar zoom">+</button>
+        <span id="indicadorZoom">100 %</span>
+    </div>
+</div>
+
+<script>
+const archivos = [
+    "01_distribucion_edades.png",
+    "02_diagrama_caja_edades.png",
+    "03_grupos_edad.png",
+    "analisis_catalogo.png",
+    "dashboard_edades.png",
+    "dashboard_general.png",
+    "habitos_visualizacion.png",
+    "panel_busquedas.png",
+    "panel_resenas.png",
+    "perfil_usuarios.png"
+];
+
+const galeria = document.getElementById("galeria");
+const modal = document.getElementById("modal");
+const marcoImagen = document.getElementById("marcoImagen");
+const imagenGrande = document.getElementById("imagenGrande");
+const tituloModal = document.getElementById("tituloModal");
+const indicadorZoom = document.getElementById("indicadorZoom");
+
+let actual = 0;
+let zoom = 1;
+let tarjetaAnterior = null;
+
+function nombreLegible(archivo) {
+    return archivo.replace(".png", "").replaceAll("_", " ");
+}
+
+archivos.forEach((archivo, indice) => {
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "tarjeta";
+    tarjeta.tabIndex = 0;
+    tarjeta.setAttribute("role", "button");
+
+    const img = document.createElement("img");
+    img.src = archivo;
+    img.alt = nombreLegible(archivo);
+    img.loading = "lazy";
+
+    const nombre = document.createElement("div");
+    nombre.className = "nombre";
+    nombre.textContent = nombreLegible(archivo);
+
+    img.addEventListener("error", () => {
+        img.style.display = "none";
+        nombre.textContent += " — imagen no disponible";
+    });
+
+    tarjeta.append(img, nombre);
+    tarjeta.addEventListener("click", () => abrir(indice, tarjeta));
+
+    tarjeta.addEventListener("keydown", evento => {
+        if (evento.key === "Enter" || evento.key === " ") {
+            evento.preventDefault();
+            abrir(indice, tarjeta);
+        }
+    });
+
+    galeria.appendChild(tarjeta);
+});
+
+function abrir(indice, tarjeta) {
+    actual = indice;
+    tarjetaAnterior = tarjeta;
+    modal.classList.add("activo");
+    document.body.style.overflow = "hidden";
+    actualizar();
+}
+
+function actualizar() {
+    const archivo = archivos[actual];
+
+    tituloModal.textContent = nombreLegible(archivo);
+    imagenGrande.alt = nombreLegible(archivo);
+    imagenGrande.src = archivo;
+
+    imagenGrande.onload = () => ajustarImagen();
+}
+
+function ajustarImagen() {
+    if (!imagenGrande.naturalWidth || !imagenGrande.naturalHeight) return;
+
+    const anchoDisponible = marcoImagen.clientWidth - 20;
+    const altoDisponible = marcoImagen.clientHeight - 20;
+
+    zoom = Math.min(
+        anchoDisponible / imagenGrande.naturalWidth,
+        altoDisponible / imagenGrande.naturalHeight,
+        1
+    );
+
+    zoom = Math.max(0.1, zoom);
+    aplicarZoom();
+
+    marcoImagen.scrollTo({ top: 0, left: 0 });
+}
+
+function aplicarZoom() {
+    if (!imagenGrande.naturalWidth) return;
+
+    const ancho = imagenGrande.naturalWidth * zoom;
+    const alto = imagenGrande.naturalHeight * zoom;
+
+    imagenGrande.style.width = ancho + "px";
+    imagenGrande.style.height = alto + "px";
+    imagenGrande.style.marginLeft =
+        ancho < marcoImagen.clientWidth
+        ? ((marcoImagen.clientWidth - ancho) / 2) + "px"
+        : "0";
+    imagenGrande.style.marginTop =
+        alto < marcoImagen.clientHeight
+        ? ((marcoImagen.clientHeight - alto) / 2) + "px"
+        : "0";
+
+    indicadorZoom.textContent = Math.round(zoom * 100) + " %";
+}
+
+function cambiarZoom(factor) {
+    if (!imagenGrande.naturalWidth) return;
+
+    const proporcionX =
+        (marcoImagen.scrollLeft + marcoImagen.clientWidth / 2)
+        / Math.max(imagenGrande.clientWidth, 1);
+
+    const proporcionY =
+        (marcoImagen.scrollTop + marcoImagen.clientHeight / 2)
+        / Math.max(imagenGrande.clientHeight, 1);
+
+    zoom = Math.min(4, Math.max(0.1, zoom * factor));
+    aplicarZoom();
+
+    marcoImagen.scrollLeft = Math.max(
+        0,
+        proporcionX * imagenGrande.clientWidth
+        - marcoImagen.clientWidth / 2
+    );
+
+    marcoImagen.scrollTop = Math.max(
+        0,
+        proporcionY * imagenGrande.clientHeight
+        - marcoImagen.clientHeight / 2
+    );
+}
+
+function cerrar() {
+    modal.classList.remove("activo");
+    document.body.style.overflow = "";
+    imagenGrande.src = "";
+
+    if (tarjetaAnterior) tarjetaAnterior.focus();
+}
+
+function cambiar(direccion) {
+    actual = (actual + direccion + archivos.length) % archivos.length;
+    actualizar();
+}
+
+document.getElementById("botonCerrar").addEventListener("click", cerrar);
+document.getElementById("volver").addEventListener("click", cerrar);
+
+document.getElementById("anterior").addEventListener("click", () => cambiar(-1));
+document.getElementById("siguiente").addEventListener("click", () => cambiar(1));
+document.getElementById("ampliar").addEventListener("click", () => cambiarZoom(1.25));
+document.getElementById("reducir").addEventListener("click", () => cambiarZoom(0.8));
+
+document.getElementById("ajustar").addEventListener("click", ajustarImagen);
+
+marcoImagen.addEventListener("wheel", evento => {
+    if (evento.ctrlKey) {
+        evento.preventDefault();
+        cambiarZoom(evento.deltaY < 0 ? 1.1 : 0.9);
+    }
+}, { passive: false });
+
+modal.addEventListener("click", evento => {
+    if (evento.target === modal) cerrar();
+});
+
+document.addEventListener("keydown", evento => {
+    if (!modal.classList.contains("activo")) return;
+
+    if (evento.key === "Escape") cerrar();
+    else if (evento.key === "ArrowRight") cambiar(1);
+    else if (evento.key === "ArrowLeft") cambiar(-1);
+    else if (evento.key === "+" || evento.key === "=") cambiarZoom(1.25);
+    else if (evento.key === "-") cambiarZoom(0.8);
+    else if (evento.key === "0") ajustarImagen();
+});
+
+window.addEventListener("resize", () => {
+    if (modal.classList.contains("activo")) ajustarImagen();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿medida,valor
+Total de registros,10000
+Edades válidas,8777
+Edades faltantes o no numéricas,1194
+Edades fuera del rango de 0 a 100,29
+Media,35.03634499259428
+Mediana,35.0
+Moda,35.0
+Varianza,149.68110824377422
+Desviación estándar,12.23442308585796
+Edad mínima válida,0.0
+Edad máxima válida,97.0
+Rango,97.0
+Primer cuartil,27.0
+Tercer cuartil,43.0
+Rango intercuartílico,16.0
+Coeficiente de variación (%),34.919233408747345

@@ -1,0 +1,31 @@
+﻿user_id,edad_registrada,motivo_revision
+user_00111,101.0,Edad superior a 100
+user_00331,102.0,Edad superior a 100
+user_00528,-1.0,Edad negativa
+user_01444,105.0,Edad superior a 100
+user_02031,104.0,Edad superior a 100
+user_02190,-2.0,Edad negativa
+user_02460,108.0,Edad superior a 100
+user_03097,-7.0,Edad negativa
+user_03529,107.0,Edad superior a 100
+user_04039,105.0,Edad superior a 100
+user_04672,-2.0,Edad negativa
+user_04872,-4.0,Edad negativa
+user_05943,-3.0,Edad negativa
+user_05970,-1.0,Edad negativa
+user_06192,-4.0,Edad negativa
+user_06195,-2.0,Edad negativa
+user_06334,-3.0,Edad negativa
+user_06788,-1.0,Edad negativa
+user_06896,-4.0,Edad negativa
+user_07118,-1.0,Edad negativa
+user_07135,-5.0,Edad negativa
+user_07180,-5.0,Edad negativa
+user_07283,-5.0,Edad negativa
+user_07432,-1.0,Edad negativa
+user_08221,109.0,Edad superior a 100
+user_08439,-5.0,Edad negativa
+user_08744,-1.0,Edad negativa
+user_09179,109.0,Edad superior a 100
+user_09251,101.0,Edad superior a 100
+user_09251,101.0,Edad superior a 100

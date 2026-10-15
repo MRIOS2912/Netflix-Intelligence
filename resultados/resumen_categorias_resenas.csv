@@ -1,0 +1,35 @@
+﻿Variable,Categoría,Frecuencia
+Identificador de la reseña,review_000001,1
+Identificador de la reseña,review_000002,1
+Identificador de la reseña,review_000003,1
+Identificador de la reseña,review_000004,1
+Identificador de la reseña,review_000005,1
+Identificador del usuario,user_09501,8
+Identificador del usuario,user_04451,7
+Identificador del usuario,user_01863,7
+Identificador del usuario,user_06751,7
+Identificador del usuario,user_06057,7
+Identificador del contenido,movie_0200,28
+Identificador del contenido,movie_0515,28
+Identificador del contenido,movie_0317,28
+Identificador del contenido,movie_0246,26
+Identificador del contenido,movie_0099,26
+Fecha de la reseña,2025-12-31,36
+Fecha de la reseña,2024-01-04,34
+Fecha de la reseña,2025-10-12,34
+Fecha de la reseña,2024-06-19,33
+Fecha de la reseña,2025-02-18,32
+Tipo de dispositivo,Celular,3814
+Tipo de dispositivo,Televisor inteligente,3813
+Tipo de dispositivo,Tableta,3708
+Tipo de dispositivo,Portátil,3665
+Reproducción verificada,Sí,12090
+Reproducción verificada,No,2910
+Texto de la reseña,¡Esta serie es una obra maestra!,913
+Texto de la reseña,Dirección y guion extraordinarios.,900
+Texto de la reseña,Me encantó esta película. Tiene excelentes actuaciones y una gran historia.,875
+Texto de la reseña,Una de las mejores series que he visto. ¡La recomiendo mucho!,865
+Texto de la reseña,¡Una producción increíble! No podía dejar de verla.,861
+Sentimiento,Positivo,9057
+Sentimiento,Neutral,3710
+Sentimiento,Negativo,2233

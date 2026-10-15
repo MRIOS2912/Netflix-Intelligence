@@ -1,0 +1,13 @@
+﻿Columna,Tipo de dato
+Identificador de la reseña,object
+Identificador del usuario,object
+Identificador del contenido,object
+Calificación,int64
+Fecha de la reseña,object
+Tipo de dispositivo,object
+Reproducción verificada,bool
+Votos de utilidad,float64
+Total de votos,float64
+Texto de la reseña,object
+Sentimiento,object
+Puntuación del sentimiento,float64

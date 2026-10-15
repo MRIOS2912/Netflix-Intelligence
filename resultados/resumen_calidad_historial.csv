@@ -1,0 +1,11 @@
+﻿indicador,valor
+total_registros,100000.0
+total_columnas,12.0
+total_celdas_vacias,99751.0
+columnas_con_faltantes,3.0
+filas_duplicadas_exactas,0.0
+porcentaje_filas_duplicadas,0.0
+fechas_no_interpretables,0.0
+duraciones_negativas,0.0
+porcentajes_reproduccion_fuera_rango,0.0
+calificaciones_fuera_rango_1_5,0.0

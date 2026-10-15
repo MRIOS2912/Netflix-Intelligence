@@ -1,0 +1,13 @@
+﻿columna_original,nombre_descriptivo,tipo_de_dato,valores_faltantes,porcentaje_faltantes
+session_id,Identificador de la sesion,object,0,0.0
+user_id,Identificador del usuario,object,0,0.0
+movie_id,Identificador del contenido,object,0,0.0
+watch_date,Fecha de visualizacion,object,0,0.0
+device_type,Tipo de dispositivo,object,0,0.0
+watch_duration_minutes,Duracion de visualizacion (minutos),float64,11771,11.77
+progress_percentage,Porcentaje de reproduccion,float64,8094,8.09
+action,Accion de visualizacion,object,0,0.0
+quality,Calidad de reproduccion,object,0,0.0
+location_country,Pais de ubicacion,object,0,0.0
+is_download,Contenido descargado,bool,0,0.0
+user_rating,Calificacion del usuario,float64,79886,79.89
